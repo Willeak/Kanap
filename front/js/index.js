@@ -1,19 +1,19 @@
-let productsData = [];
-
+//chargement de l'api
 fetch("http://localhost:3000/api/products", {
-	method: "GET",
-	headers: { 
-'Accept': 'application/json', 
-'Content-Type': 'application/json' 
-},
-	
-}) .then((response)=> {
+    method: "GET",
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    },
+
+}).then((response) => {
     return response.json()
 
-}) .then((promise)=> {
+}).then((promise) => {
     productsData = promise;
     console.log(productsData);
 
+    //generation de chaque produit via l'api avec l'html 
     const productsDisplay = document.getElementById("items").innerHTML = productsData.map((products) => `
     <a href="./product.html?id=${products._id}">
         <article>
@@ -23,11 +23,8 @@ fetch("http://localhost:3000/api/products", {
         </article>
     </a>
     `
-    ) .join(""); //suppression de la virgule
+    ).join(""); //suppression de la virgule sur le .js
 
-    console.log(productsDisplay)
-
-}) .catch((error)=> {
+}).catch((error) => {
     console.log(error)
 })
-
