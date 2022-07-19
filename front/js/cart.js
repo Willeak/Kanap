@@ -11,11 +11,23 @@ let orderId = "";
 
 const positionEmptyCart = document.getElementById("cart__items");
 
+// sélection du bouton Valider
+const btnValidate = document.querySelector("#order");
+
 //si le panier est vide : afficher le panier est vide || mais également si le seul article restant a été supprimé (suppression de la key 'produit') pour l'affichage du message
 if (produitStorage === null || produitStorage === 0 || typeof produitStorage === 'object' && produitStorage != null && Object.keys(produitStorage).length == 0) {
   localStorage.removeItem("produit");
   positionEmptyCart.textContent = "Votre panier est vide";
   console.log("Votre panier est vide");
+
+  btnValidate.style.border = "2px solid red";
+  btnValidate.style.cursor = "not-allowed";
+
+  btnValidate.addEventListener("click", (event) => {
+    event.preventDefault();
+
+  alert("Votre panier est vide, veuillez choisir au moins un produit !");
+  })
 
 } else {
   console.log("Des produits sont présents dans le panier");
@@ -160,8 +172,6 @@ if (produitStorage === null || produitStorage === 0 || typeof produitStorage ===
 
   /* ---------------- LE FORMULAIRE ---------------- */
 
-  // sélection du bouton Valider
-  const btnValidate = document.querySelector("#order");
 
   // Écoute du bouton Valider sur le click pour pouvoir valider le formulaire
   btnValidate.addEventListener("click", (event) => {
@@ -179,7 +189,7 @@ if (produitStorage === null || produitStorage === 0 || typeof produitStorage ===
 
     /* GESTION DU FORMULAIRE */
 
-    // #1 #2 Regex pour le contrôle des champs Prénom, Nom et Ville
+    // #1 #2 Regex pour le contrôle des champs Prénom, Nom
     const regExPrenomNom = (value) => {
       return /^[A-Z][A-Za-z\é\è\ê\-]+$/.test(value);
     };
@@ -290,7 +300,8 @@ if (produitStorage === null || produitStorage === 0 || typeof produitStorage ===
     }
 
     // Contrôle validité formulaire avant de l'envoyer dans le local storage
-    if (
+
+  if (
       firstNameControl() &&
       lastNameControl() &&
       addressControl() &&
@@ -334,7 +345,10 @@ if (produitStorage === null || produitStorage === 0 || typeof produitStorage ===
         location.href = "confirmation.html?id=" + orderId;
       }
     }
+
   });
+
+
 
   /* FIN REQUÊTE DU SERVEUR ET POST DES DONNÉES */
 
